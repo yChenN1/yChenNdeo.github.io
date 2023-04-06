@@ -1,0 +1,1382 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <style>
+      audio { width: 250px;}
+      </style>
+    
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>AINN | AINN Audio Demo</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Attention-based Interactive Disentangling Network for Instance-level Emotional Voice Conversion
+Track Name" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:site_name" content="AINN Audio Demo" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="AINN" />
+
+<!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- <link rel="stylesheet" href="./assets/css/head.css"> -->
+  </head>
+  <body>
+
+    <header class="page-header" role="banner">
+    <nav class="navbar navbar-expand-lg bg-secondary fixed-top" id="mainNav", high='100px', font-color="'white">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Outlines</a>
+          <button class="navbar-toggler navbar-toggler-right font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu <i class="fas fa-bars"></i></button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto", >
+                  <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#abstract">ABSTRACT</a>
+                  <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#Architecture">MODEL ARCHITECTURE</a></li>
+                  <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#EVC">EMOTIONAL VOICE CONVERSION</a></li> 
+                  <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#strength">EMOTIONAL STRENGTH CONTROL</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+      <h1 class="project-name">Attention-based Interactive Disentangling Network for Instance-level Emotional Voice Conversion</h1>
+     <p style="font-size:30px"> Anonymous </p>
+    </header>
+
+    
+    <main id="content" class="main-content" role="main">   
+
+<h2 id="abstract"><b>Abstract</b></h2>
+<p style="text-align:justify;">Emotional Voice Conversion aims to manipulate a speech
+  according to a given emotion while preserving non-emotion
+  components. Existing approaches cannot well express finegrained
+  emotional attributes. In this paper, we propose an
+  Attention-based Interactive diseNtangling Network (AINN) that
+  leverages instance-wise emotional knowledge for voice conversion.
+  We introduce a two-stage pipeline to effectively train our
+  network: Stage I utilizes inter-speech contrastive learning to
+  model fine-grained emotion and intra-speech disentanglement
+  learning to better separate emotion and content. In Stage II, we
+  propose to regularize the conversion with a multi-view consistency
+  mechanism. This technique helps us transfer fine-grained
+  emotion and maintain speech content. Extensive experiments
+  show that our AINN outperforms state-of-the-arts in both objective
+  and subjective metrics. Our code will be abailable.
+</p>
+
+<hr />
+
+    <!-- <h1 id="starganv2-vc">AINN-EVC</h1> -->
+<h2 id='Architecture'><b>Model Architecture</b></h2>
+
+<p style="text-align: center;">
+<img src="./images/model.png" width="1200">
+</p>
+
+
+<h2 id="EVC"><b>Emotional Voice Conversion</b></h2>   
+ 
+
+<h3 id="female-to-female">Neutral to Sad</h3>
+
+
+
+<div class="col-lg-12 ml-auto">
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0012_000024.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0012_001074.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0012_000024_0012_001074_neu2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0012_000024_0012_001074_neu2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0012_000024_0012_001074_neu2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0012_000024_0012_001074_neu2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0012_000025.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0012_001075.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0012_000025_0012_001075_neu2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0012_000025_0012_001075_neu2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0012_000025_0012_001075_neu2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0012_000025_0012_001075_neu2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+  
+
+
+
+  <p> </p>  
+  <h3 id="female-to-female">Neutral to Surprise</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+
+        
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+        <audio id="player" controls>
+            <source src="./audios/source/0013_000042.wav"  type="audio/wav" />
+        </audio>
+      </td>
+      <td rowspan="4" style="vertical-align: top;"><p></p>
+        <audio id="player" controls>
+            <source src="./audios/target/0013_001442.wav" type="audio/wav" />
+        </audio>
+      </td>
+      <td><p>baseline</p>
+        <audio id="player" controls>
+            <source src="./audios/baseline/0013_000042_0013_001442_neu2sup.wav" type="audio/wav" />
+        </audio>
+      </td>
+      <td><p>Stage I (w/o EC)</p>
+        <audio id="player" controls>
+            <source src="./audios/stage1woEC/0013_000042_0013_001442_neu2sup.wav" type="audio/wav" />
+        </audio>
+      </td>
+      
+    </tr>
+
+    <tr></tr>
+    <tr></tr>
+    <tr>
+      <td><p>Stage I</p>
+        <audio id="player" controls>
+            <source src="./audios/stage1/0013_000042_0013_001442_neu2sup.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>AINN (full)</p>
+        <audio id="player" controls>
+            <source src="./audios/AINN/0013_000042_0013_001442_neu2sup.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0013_000039.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0013_001439.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0013_000039_0013_001439_neu2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0013_000039_0013_001439_neu2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0013_000039_0013_001439_neu2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0013_000039_0013_001439_neu2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+    
+
+   
+    </tbody>
+  </table>
+
+
+
+
+  <p> </p>  
+  <h3 id="female-to-female">Happy to Surprise</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0011_000721.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0011_001421.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0011_000721_0011_001421_hap2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0011_000721_0011_001421_hap2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0011_000721_0011_001421_hap2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0011_000721_0011_001421_hap2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0012_000725.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0012_001425.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0012_000725_0012_001425_hap2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0012_000725_0012_001425_hap2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0012_000725_0012_001425_hap2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0012_000725_0012_001425_hap2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+
+
+
+
+
+  <p> </p>  
+  <h3 id="female-to-female">Happy to Angry</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0018_000727.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0018_000377.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0018_000727_0018_000377_hap2ang.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0018_000727_0018_000377_hap2ang.wav" type="audio/wav" />
+          </audio>
+        </td>
+        
+      </tr>
+      <tr>
+        
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0018_000727_0018_000377_hap2ang.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0018_000727_0018_000377_hap2ang.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0011_000729.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0011_000379.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0011_000729_0011_000379_hap2ang.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0011_000729_0011_000379_hap2ang.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0011_000729_0011_000379_hap2ang.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0011_000729_0011_000379_hap2ang.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+
+
+  
+  <p> </p>  
+  <h3 id="female-to-female">Angry to Surprise</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0011_000395.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0011_001445.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0011_000395_0011_001445_ang2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0011_000395_0011_001445_ang2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0011_000395_0011_001445_ang2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0011_000395_0011_001445_ang2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0013_000383.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0013_001433.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0013_000383_0013_001433_ang2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0013_000383_0013_001433_ang2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+       
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0013_000383_0013_001433_ang2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0013_000383_0013_001433_ang2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+
+
+  <p> </p>  
+  <h3 id="female-to-female">Sad to Happy</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0011_001079.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0011_000729.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0011_001079_0011_000729_sad2hap.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0011_001079_0011_000729_sad2hap.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0011_001079_0011_000729_sad2hap.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0011_001079_0011_000729_sad2hap.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0012_001098.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0012_000748.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0012_001098_0012_000748_sad2hap.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0012_001098_0012_000748_sad2hap.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0012_001098_0012_000748_sad2hap.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0012_001098_0012_000748_sad2hap.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+
+
+  <p> </p>  
+  <h3 id="female-to-female">Sad to Neutral</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0011_001079.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0011_000029.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0011_001079_0011_000029_sad2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0011_001079_0011_000029_sad2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0011_001079_0011_000029_sad2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0011_001079_0011_000029_sad2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0011_001081.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0011_000031.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0011_001081_0011_000031_sad2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0011_001081_0011_000031_sad2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0011_001081_0011_000031_sad2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0011_001081_0011_000031_sad2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+
+
+  <p> </p>  
+  <h3 id="female-to-female">Sad to Surprise</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0013_001076.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0013_001426.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0013_001076_0013_001426_sad2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0013_001076_0013_001426_sad2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0013_001076_0013_001426_sad2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0013_001076_0013_001426_sad2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0019_001091.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0019_001441.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0019_001091_0019_001441_sad2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0019_001091_0019_001441_sad2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0019_001091_0019_001441_sad2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0019_001091_0019_001441_sad2sup.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+
+
+  <p> </p>  
+  <h3 id="female-to-female">Surprise to Sad</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0014_001439.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0014_001089.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0014_001439_0014_001089_sup2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0014_001439_0014_001089_sup2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        
+      </tr>
+      <tr>
+        
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0014_001439_0014_001089_sup2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0014_001439_0014_001089_sup2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0015_001428.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0015_001078.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0015_001428_0015_001078_sup2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0015_001428_0015_001078_sup2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        
+      </tr>
+      <tr>
+       
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0015_001428_0015_001078_sup2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0015_001428_0015_001078_sup2sad.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <p> </p>  
+  <h3 id="female-to-female">Surprise to Neutral</h3>
+
+  <table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+    <thead>
+      <tr>
+        <th style="width: 15%">Source speech</th>
+        <th style="width: 15%">Target speech</th>
+        <th style="width: 40%">Converted speech</th>
+        <th style="width: 40%">         </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls >
+              <source src="./audios/source/0016_001436.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="4" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0016_000036.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0016_001436_0016_000036_sup2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0016_001436_0016_000036_sup2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+        
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0016_001436_0016_000036_sup2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0016_001436_0016_000036_sup2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+
+      <tr>
+          <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/source/0020_001424.wav"  type="audio/wav" />
+          </audio>
+        </td>
+        <td rowspan="7" style="vertical-align: top;"><p></p>
+          <audio id="player" controls>
+              <source src="./audios/target/0020_000024.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>baseline</p>
+          <audio id="player" controls>
+              <source src="./audios/baseline/0020_001424_0020_000024_sup2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>Stage I (w/o EC)</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1woEC/0020_001424_0020_000024_sup2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+       
+      </tr>
+      <tr>
+       
+        <td><p>Stage I</p>
+          <audio id="player" controls>
+              <source src="./audios/stage1/0020_001424_0020_000024_sup2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+        <td><p>AINN (full)</p>
+          <audio id="player" controls>
+              <source src="./audios/AINN/0020_001424_0020_000024_sup2neu.wav" type="audio/wav" />
+          </audio>
+        </td>
+      </tr>
+   
+    </tbody>
+  </table>
+
+
+
+
+<h2 id="strength"><b>Emotional Strength Control</b></h2>
+
+<h3 id="female-to-female">Neutral to Angry</h3>
+
+<table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+  <thead>
+    <tr>
+      <th style="width: 20%">Source speech</th>
+      <th style="width: 20%">Reference speech</th>
+      <th style="width: 20%">Converted speech</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="3" style="vertical-align: top;"><p></p>
+        <audio id="player" controls >
+            <source src="./audios/source/0015_000025.wav" type="audio/wav" />
+        </audio>
+      </td>
+    
+      <td><p>Reference speech A (weak)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0015_000390.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech A</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0015_000025_0015_000390_neu2ang.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr>
+      <td><p>Reference speech B (strong)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0015_000397.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech B</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0015_000025_0015_000397_neu2ang.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+
+    <tr>
+        <td rowspan="7" style="vertical-align: top;"></p>
+        <audio id="player" controls>
+            <source src="./audios/source/0013_000027.wav"  type="audio/wav" />
+        </audio>
+      </td>
+    
+      <td><p>Reference speech A (weak)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0013_000387.wav" type="audio/wav" />
+        </audio>
+      </td>
+ 
+      <td><p>Converted speech A</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0013_000027_0013_000387_neu2ang.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr>
+      <td><p>Reference speech B (strong)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0013_000383.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech B</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0013_000027_0013_000383_neu2ang.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+ 
+  </tbody>
+</table>
+
+
+
+<h3 id="female-to-female">Neutral to Surprise</h3>
+
+<table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+  <thead>
+    <tr>
+      <th style="width: 20%">Source speech</th>
+      <th style="width: 20%">Reference speech</th>
+      <th style="width: 20%">Converted speech</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="3" style="vertical-align: top;"><p></p>
+        <audio id="player" controls >
+            <source src="./audios/source/0011_000036.wav" type="audio/wav" />
+        </audio>
+      </td>
+    
+      <td><p>Reference speech A (weak)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0011_001424.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech A</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0011_000036_0011_001424_neu2sup.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr>
+      <td><p>Reference speech B (strong)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0011_001421.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech B</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0011_000036_0011_001421_neu2sup.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+
+    <!-- <tr>
+        <td rowspan="7" style="vertical-align: top;"></p>
+        <audio id="player" controls>
+            <source src="./audios/source/0013_000027.wav"  type="audio/wav" />
+        </audio>
+      </td>
+    
+      <td><p>Reference speech A (weak)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0013_000387.wav" type="audio/wav" />
+        </audio>
+      </td>
+ 
+      <td><p>Converted speech A</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0013_000027_0013_000387_neu2ang.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr>
+      <td><p>Reference speech B (strong)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0013_000383.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech B</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0013_000027_0013_000383_neu2ang.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr> -->
+ 
+  </tbody>
+</table>
+
+
+
+
+<h3 id="female-to-female">Neutral to Sad</h3>
+
+<table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+  <thead>
+    <tr>
+      <th style="width: 20%">Source speech</th>
+      <th style="width: 20%">Reference speech</th>
+      <th style="width: 20%">Converted speech</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="3" style="vertical-align: top;"><p></p>
+        <audio id="player" controls >
+            <source src="./audios/source/0015_000025.wav" type="audio/wav" />
+        </audio>
+      </td>
+    
+      <td><p>Reference speech A (weak)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0015_001082.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech A</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0015_000025_0015_001082_neu2sad.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr>
+      <td><p>Reference speech B (strong)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0015_001100.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech B</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0015_000025_0015_001100_neu2sad.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+
+    <tr>
+        <td rowspan="7" style="vertical-align: top;"></p>
+        <audio id="player" controls>
+            <source src="./audios/source/0014_000030.wav"  type="audio/wav" />
+        </audio>
+      </td>
+    
+      <td><p>Reference speech A (weak)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0014_001072.wav" type="audio/wav" />
+        </audio>
+      </td>
+ 
+      <td><p>Converted speech A</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0014_000030_0014_001072_neu2sad.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr>
+      <td><p>Reference speech B (strong)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0014_001093.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech B</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0014_000030_0014_001093_neu2sad.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+ 
+  </tbody>
+</table>
+
+
+
+<h3 id="female-to-female">Neutral to Happy</h3>
+<table class="table table-responsive align-content-center" style="background-color: whitesmoke; border-radius: 20px", width="100">
+  <thead>
+    <tr>
+      <th style="width: 20%">Source speech</th>
+      <th style="width: 20%">Reference speech</th>
+      <th style="width: 20%">Converted speech</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="3" style="vertical-align: top;"><p></p>
+        <audio id="player" controls >
+            <source src="./audios/source/0018_000025.wav" type="audio/wav" />
+        </audio>
+      </td>
+    
+      <td><p>Reference speech A (weak)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0018_000729.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech A</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0018_000025_0018_000729_neu2hap.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr>
+      <td><p>Reference speech B (strong)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0018_000748.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech B</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0018_000025_0018_000748_neu2hap.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr></tr>
+
+    <tr>
+        <td rowspan="7" style="vertical-align: top;"></p>
+        <audio id="player" controls>
+            <source src="./audios/source/0012_000041.wav"  type="audio/wav" />
+        </audio>
+      </td>
+    
+      <td><p>Reference speech A (weak)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0012_000725.wav" type="audio/wav" />
+        </audio>
+      </td>
+ 
+      <td><p>Converted speech A</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0012_000041_0012_000725_neu2hap.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+    <tr>
+      <td><p>Reference speech B (strong)</p>
+        <audio id="player" controls>
+            <source src="./audios/target/0012_000745.wav" type="audio/wav" />
+        </audio>
+      </td>
+
+      <td><p>Converted speech B</p>
+        <audio id="player" controls>
+            <source src="./audios/strength/0012_000041_0012_000745_neu2hap.wav" type="audio/wav" />
+        </audio>
+      </td>
+    </tr>
+ 
+  </tbody>
+</table>
+
+</body>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
